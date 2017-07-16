@@ -103,28 +103,8 @@ var _url2 = _interopRequireDefault(_url);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { createStore } from 'redux';
-// import Phone from './modules/Phone';
-// import apiConfig from './config/api';
-// import brandConfig from './config/brand';
-// import version from './config/version';
-// import prefix from './config/prefix';
-
-// let phone = new Phone({
-//   apiConfig,
-//   brandConfig,
-//   prefix,
-//   appVersion: version,
-// });
-
-// const store = createStore(phone.reducer);
-
-// phone.setStore(store);
-
-// global.phone = phone;
-
 let mainWindow;
-function createWindow() {
+function createMainWindow() {
   const isDev = "development" === 'development';
   const height = 520;
   const width = isDev ? 950 : 300;
@@ -153,7 +133,21 @@ function createWindow() {
   });
 }
 
-_electron.app.on('ready', createWindow);
+let loginWindow;
+function createLoginWindow(oAuthUri) {
+  loginWindow = new _electron.BrowserWindow({
+    width: 600,
+    height: 600,
+    webPreferences: { nodeIntegration: false }
+  });
+  loginWindow.loadURL(oAuthUri);
+  loginWindow.webContents.openDevTools();
+  loginWindow.on('closed', () => {
+    loginWindow = null;
+  });
+}
+
+_electron.app.on('ready', createMainWindow);
 
 // Quit when all windows are closed.
 _electron.app.on('window-all-closed', () => {
@@ -168,7 +162,7 @@ _electron.app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow();
+    createMainWindow();
   }
 });
 
@@ -177,6 +171,12 @@ _electron.ipcMain.on('message', (event, message) => {
     return;
   }
   mainWindow.webContents.send('message', message);
+});
+_electron.ipcMain.on('openLoginWindow', (event, { oAuthUri }) => {
+  if (loginWindow) {
+    return;
+  }
+  createLoginWindow(oAuthUri);
 });
 
 /***/ })
