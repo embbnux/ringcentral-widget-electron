@@ -1,0 +1,86 @@
+@import 'ringcentral-widget/lib/commonStyles/full-size';
+@import 'ringcentral-widget/lib/commonStyles/no-select';
+@import 'ringcentral-widget/lib/commonStyles/fonts';
+
+$header-height: 35px;
+
+body {
+  @include primary-font;
+}
+
+.root {
+  @include no-select;
+  @include full-size;
+  padding-bottom: 0px;
+}
+
+.header {
+  @include no-select;
+  position: relative;
+  height: $header-height;
+  line-height: 35px;
+  text-align: center;
+  background-color: #f3f3f3;
+}
+
+.centerStyle {
+  top: 50%;
+  position: absolute;
+}
+
+.presence {
+  @extend .centerStyle;
+  left: 20px;
+  height: 14px;
+  width: 14px;
+  border-radius: 8px;
+  margin-top: -7px;
+  display: none;
+  cursor: pointer;
+}
+
+.Offline {
+  display: block;
+  background: #cdcdcd;
+}
+
+.Busy {
+  display: block;
+  background: #f95b5c;
+}
+
+.Available {
+  display: block;
+  background-color: #32ae31;
+}
+
+.presenceBar {
+  display: none;
+  position: absolute;
+  width: 8px;
+  height: 2px;
+  border-radius: 1.5px;
+  background-color: #ffffff;
+  transform-origin: 50% 50%;
+  transform: translate(3px, 6px);
+}
+
+.DoNotAcceptAnyCalls {
+  .presenceBar {
+    display: block;
+  }
+}
+
+.logo {
+  @extend .centerStyle;
+  left: 50%;
+  height: 16px;
+  width: 100px;
+  margin-top: -8px;
+  margin-left: -50px;
+}
+
+.container {
+  position: relative;
+  height: calc(100% - #{$header-height});
+}

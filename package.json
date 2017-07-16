@@ -1,16 +1,19 @@
 {
-  "name": "ringcentral-widget-demo",
+  "name": "ringcentral-widget-electron",
   "version": "0.0.1",
-  "description": "A RingCentral Widget Demo",
-  "main": "index.js",
+  "description": "A RingCentral Widget App with Electron",
+  "main": "build/main.js",
   "license": "MIT",
   "scripts": {
-    "start": "npm run dev-server",
-    "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --inline",
-    "build": "NODE_ENV=production webpack --config webpack-production.config.js --progress --colors"
+    "start": "electron .",
+    "prestart": "npm run build-main",
+    "build-renderer": "webpack --config webpack.renderer.config.js --progress --colors --watch",
+    "build-main": "webpack --config webpack.main.config.js --progress --colors"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "babel-preset-env": "^1.6.0",
+    "electron": "^1.6.11",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
@@ -26,12 +29,14 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.23.0",
+    "bufferutil": "^3.0.2",
     "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.0.1",
     "core-js": "^2.4.1",
     "css-loader": "^0.28.1",
     "file-loader": "^0.11.1",
     "format-message": "^5.1.2",
+    "html-webpack-plugin": "^2.29.0",
     "intl": "^1.2.5",
     "node-sass": "^4.5.3",
     "normalize-css": "^2.3.1",
@@ -50,8 +55,9 @@
     "sass-loader": "^6.0.3",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
+    "utf-8-validate": "^3.0.3",
     "webpack": "^2.5.0",
-    "webpack-dev-server": "^2.4.5",
+    "webpack-dev-server": "^2.5.1",
     "whatwg-fetch": "^2.0.3"
   }
 }

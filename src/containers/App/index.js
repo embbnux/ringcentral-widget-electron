@@ -23,59 +23,67 @@ import CallBadgeContainer from 'ringcentral-widget/containers/CallBadgeContainer
 
 import MainView from '../MainView';
 import AppView from '../AppView';
-
+import HeaderView from '../HeaderView';
 
 export default function App({
   phone,
+  logo,
 }) {
   return (
     <Provider store={phone.store} >
       <Router history={phone.router.history} >
         <Route
           component={routerProps => (
-            <AppView
+            <HeaderView
               auth={phone.auth}
-              alert={phone.alert}
-              locale={phone.locale}
-              environment={phone.environment}
-              brand={phone.brand}
-              rateLimiter={phone.rateLimiter}
-              connectivityMonitor={phone.connectivityMonitor}
-              callingSettings={phone.callingSettings}>
-              {routerProps.children}
-              <CallBadgeContainer
+              presence={phone.detailedPresence}
+              router={phone.router}
+              logo={logo}
+            >
+              <AppView
+                auth={phone.auth}
+                alert={phone.alert}
                 locale={phone.locale}
-                webphone={phone.webphone}
-                hidden={routerProps.location.pathname === '/calls/active'}
-                goToCallCtrl={() => {
-                  phone.router.push('/calls/active');
-                }}
-              />
-              <IncomingCallPage
-                locale={phone.locale}
-                webphone={phone.webphone}
-                forwardingNumber={phone.forwardingNumber}
-                regionSettings={phone.regionSettings}
-                router={phone.router}
-                contactMatcher={phone.contactMatcher}
-                getAvatarUrl={
-                  async (contact) => {
-                    const avatarUrl = await phone.contacts.getImageProfile(contact);
-                    return avatarUrl;
-                  }
-                }
-              >
-                <AlertContainer
+                environment={phone.environment}
+                brand={phone.brand}
+                rateLimiter={phone.rateLimiter}
+                connectivityMonitor={phone.connectivityMonitor}
+                callingSettings={phone.callingSettings}>
+                {routerProps.children}
+                <CallBadgeContainer
                   locale={phone.locale}
-                  alert={phone.alert}
-                  rateLimiter={phone.rateLimiter}
-                  brand={phone.brand}
-                  router={phone.router}
-                  callingSettingsUrl="/settings/calling"
-                  regionSettingsUrl="/settings/region"
+                  webphone={phone.webphone}
+                  hidden={routerProps.location.pathname === '/calls/active'}
+                  goToCallCtrl={() => {
+                    phone.router.push('/calls/active');
+                  }}
                 />
-              </IncomingCallPage>
-            </AppView>
+                <IncomingCallPage
+                  locale={phone.locale}
+                  webphone={phone.webphone}
+                  forwardingNumber={phone.forwardingNumber}
+                  regionSettings={phone.regionSettings}
+                  router={phone.router}
+                  contactMatcher={phone.contactMatcher}
+                  getAvatarUrl={
+                    async (contact) => {
+                      const avatarUrl = await phone.contacts.getImageProfile(contact);
+                      return avatarUrl;
+                    }
+                  }
+                >
+                  <AlertContainer
+                    locale={phone.locale}
+                    alert={phone.alert}
+                    rateLimiter={phone.rateLimiter}
+                    brand={phone.brand}
+                    router={phone.router}
+                    callingSettingsUrl="/settings/calling"
+                    regionSettingsUrl="/settings/region"
+                  />
+                </IncomingCallPage>
+              </AppView>
+            </HeaderView>
           )} >
           <Route
             path="/"

@@ -1,6 +1,6 @@
-import ProxyFrameController from 'ringcentral-integration/lib/ProxyFrameController';
+import ProxyWebviewController from './lib/ProxyWebviewController';
 import prefix from './config/prefix';
 
-export default new ProxyFrameController({
+export default new ProxyWebviewController({
   prefix,
 });

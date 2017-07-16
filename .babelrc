@@ -1,7 +1,10 @@
 {
-  "presets": [ "es2015", "react", "stage-0"],
-  "plugins": [
-    "transform-runtime"
-  ],
-  "sourceMaps": true
+  "presets": [
+    ["env", {
+      "targets": { "node": 7 },
+      "useBuiltIns": true
+    }],
+    "react",
+    "stage-0"
+   ],
 }

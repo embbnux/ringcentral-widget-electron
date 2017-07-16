@@ -9,7 +9,6 @@ import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
 import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
 import AddressBook from 'ringcentral-integration/modules/AddressBook';
 import Alert from 'ringcentral-integration/modules/Alert';
-import Auth from 'ringcentral-integration/modules/Auth';
 import Brand from 'ringcentral-integration/modules/Brand';
 import Call from 'ringcentral-integration/modules/Call';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
@@ -49,6 +48,8 @@ import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
 import ConversationMatcher from 'ringcentral-integration/modules/ConversationMatcher';
 
 import RouterInteraction from 'ringcentral-widget/modules/RouterInteraction';
+
+import Auth from '../Auth';
 import Interaction from '../Interaction';
 import Environment from '../Environment';
 

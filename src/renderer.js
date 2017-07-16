@@ -7,7 +7,7 @@ import apiConfig from './config/api';
 import brandConfig from './config/brand';
 import version from './config/version';
 import prefix from './config/prefix';
-
+import Logo from './assets/images/VIE_Logo_RC.svg';
 const phone = new Phone({
   apiConfig,
   brandConfig,
@@ -24,6 +24,7 @@ window.phone = phone;
 ReactDOM.render(
   <App
     phone={phone}
+    logo={Logo}
   />,
   document.querySelector('div#viewport'),
 );
