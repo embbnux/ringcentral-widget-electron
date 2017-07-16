@@ -1,6 +1,7 @@
-import RedirectController from './lib/RedirectController';
-import prefix from './config/prefix';
-
-export default new RedirectController({
-  prefix,
+window.addEventListener('load', () => {
+  const callbackUri = window.location.href;
+  if (window.Bridge) {
+    window.Bridge.sendLoginSuccessMessage(callbackUri);
+  }
+  window.close();
 });

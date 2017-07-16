@@ -44,67 +44,15 @@ export default class Interaction extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-      this._postMessage({
-        type: 'rc-set-presence',
-        presence: {
-          dndStatus: this._presence.dndStatus,
-          userStatus: this._presence.userStatus,
-        },
-      });
     } else if (this._shouldReset()) {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
       });
-      this._postMessage({
-        type: 'rc-set-presence',
-        presence: {},
-      });
-    } else if (this.ready) {
-      if (
-        this._dndStatus !== this._presence.dndStatus ||
-        this._userStatus !== this._presence.userStatus
-      ) {
-        this._dndStatus = this._presence.dndStatus;
-        this._userStatus = this._presence.userStatus;
-        this._postMessage({
-          type: 'rc-set-presence',
-          presence: {
-            dndStatus: this._dndStatus,
-            userStatus: this._userStatus,
-          },
-        });
-      }
     }
   }
 
   initialize() {
-    window.addEventListener('message', event => this._messageHandler(event));
     this.store.subscribe(() => this._onStateChange());
-  }
-
-  _messageHandler(e) {
-    const data = e.data;
-    if (data) {
-      switch (data.type) {
-        case 'rc-adapter-goto-presence':
-          this._router.history.push('/settings?showPresenceSettings=1');
-          break;
-        case 'rc-adapter-set-environment':
-          if (window.toggleEnv) {
-            window.toggleEnv();
-          }
-          break;
-        default:
-          break;
-      }
-    }
-  }
-
-  // eslint-disable-next-line
-  _postMessage(data) {
-    if (window && window.parent) {
-      window.parent.postMessage(data, '*');
-    }
   }
 
   get ready() {

@@ -14,8 +14,8 @@ const config = {
   target: 'electron-renderer',
   entry: {
     renderer: './src/renderer.js',
-    proxy: './src/proxy.js',
     redirect: './src/redirect.js',
+    preload: './src/preload.js',
   },
   output: {
     path: buildPath,
@@ -30,7 +30,6 @@ const config = {
     new CopyWebpackPlugin([
       { from: 'src/assets', to: 'assets' },
       { from: 'src/index.html', to: 'index.html' },
-      { from: 'src/proxy.html', to: 'proxy.html' },
       { from: 'src/redirect.html', to: 'redirect.html' },
     ]),
   ],

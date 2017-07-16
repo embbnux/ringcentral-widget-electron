@@ -1,28 +1,9 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import url from 'url';
-// import { createStore } from 'redux';
-// import Phone from './modules/Phone';
-// import apiConfig from './config/api';
-// import brandConfig from './config/brand';
-// import version from './config/version';
-// import prefix from './config/prefix';
-
-// let phone = new Phone({
-//   apiConfig,
-//   brandConfig,
-//   prefix,
-//   appVersion: version,
-// });
-
-// const store = createStore(phone.reducer);
-
-// phone.setStore(store);
-
-// global.phone = phone;
 
 let mainWindow;
-function createWindow() {
+function createMainWindow() {
   const isDev = process.env.NODE_ENV === 'development';
   const height = 520;
   const width = isDev ? 950 : 300;
@@ -51,7 +32,24 @@ function createWindow() {
   });
 }
 
-app.on('ready', createWindow);
+let loginWindow;
+function createLoginWindow(oAuthUri) {
+  loginWindow = new BrowserWindow({
+    width: 600,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
+  loginWindow.loadURL(oAuthUri);
+  loginWindow.webContents.openDevTools();
+  loginWindow.on('closed', () => {
+    loginWindow = null;
+  });
+}
+
+app.on('ready', createMainWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -66,13 +64,20 @@ app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow();
+    createMainWindow();
   }
 });
 
-ipcMain.on('message', (event, message) => {
+ipcMain.on('openLoginWindow', (event, { oAuthUri }) => {
+  if (loginWindow) {
+    return;
+  }
+  createLoginWindow(oAuthUri);
+});
+
+ipcMain.on('loginSuccess', (event, message) => {
   if (!mainWindow) {
     return;
   }
-  mainWindow.webContents.send('message', message);
+  mainWindow.webContents.send('loginSuccess', message);
 });
