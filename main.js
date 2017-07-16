@@ -108,7 +108,13 @@ function createMainWindow() {
   const isDev = "development" === 'development';
   const height = 520;
   const width = isDev ? 950 : 300;
-  mainWindow = new _electron.BrowserWindow({ width, height });
+  mainWindow = new _electron.BrowserWindow({
+    width,
+    height,
+    webPreferences: {
+      preload: _path2.default.join(__dirname, 'preload.js')
+    }
+  });
   let indexFile = undefined;
   if (!indexFile) {
     indexFile = _url2.default.format({
@@ -138,7 +144,10 @@ function createLoginWindow(oAuthUri) {
   loginWindow = new _electron.BrowserWindow({
     width: 600,
     height: 600,
-    webPreferences: { nodeIntegration: false }
+    webPreferences: {
+      nodeIntegration: false,
+      preload: _path2.default.join(__dirname, 'preload.js')
+    }
   });
   loginWindow.loadURL(oAuthUri);
   loginWindow.webContents.openDevTools();
@@ -166,17 +175,18 @@ _electron.app.on('activate', () => {
   }
 });
 
-_electron.ipcMain.on('message', (event, message) => {
-  if (!mainWindow) {
-    return;
-  }
-  mainWindow.webContents.send('message', message);
-});
 _electron.ipcMain.on('openLoginWindow', (event, { oAuthUri }) => {
   if (loginWindow) {
     return;
   }
   createLoginWindow(oAuthUri);
+});
+
+_electron.ipcMain.on('loginSuccess', (event, message) => {
+  if (!mainWindow) {
+    return;
+  }
+  mainWindow.webContents.send('loginSuccess', message);
 });
 
 /***/ })
