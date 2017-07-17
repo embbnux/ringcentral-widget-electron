@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 
@@ -23,6 +24,16 @@ export default class Interaction extends RcModule {
     this._reducer = getReducer(this.actionTypes);
     this._dndStatus = null;
     this._userStatus = null;
+    ipcRenderer.on('loginSuccess', (event, { callbackUri }) => {
+      this._auth.loginFromCallbackUri(callbackUri);
+    });
+    ipcRenderer.on('loginUser', () => {
+      this._auth.openOAuthPage();
+    });
+    ipcRenderer.on('logoutUser', async () => {
+      await this._auth.logout();
+      ipcRenderer.send('logoutSuccess');
+    });
   }
 
   _shouldInit() {
@@ -44,6 +55,7 @@ export default class Interaction extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
+      ipcRenderer.send('loginSuccess');
     } else if (this._shouldReset()) {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,

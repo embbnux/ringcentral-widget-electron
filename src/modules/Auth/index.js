@@ -1,15 +1,12 @@
+import { ipcRenderer } from 'electron';
 import Auth from 'ringcentral-integration/modules/Auth';
 import parseCallbackUri from 'ringcentral-integration/lib/parseCallbackUri';
 import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
-import { ipcRenderer } from 'electron';
 
 export default class ElectronAuth extends Auth {
   constructor({ ...options }) {
     super({
       ...options,
-    });
-    ipcRenderer.on('loginSuccess', (event, { callbackUri }) => {
-      this._loginFromCallbackUri(callbackUri);
     });
     this._createProxyFrame = () => {
       this.store.dispatch({
@@ -28,7 +25,7 @@ export default class ElectronAuth extends Auth {
     ipcRenderer.send('openLoginWindow', { oAuthUri });
   }
 
-  async _loginFromCallbackUri(callbackUri) {
+  async loginFromCallbackUri(callbackUri) {
     try {
       const code = parseCallbackUri(callbackUri);
       if (code) {

@@ -1,10 +1,34 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path from 'path';
 import url from 'url';
+import getMenuTemplate from './lib/getMenuTemplate';
 
 let mainWindow;
+let loginWindow;
+let isLogin = false;
+
+function onLogin() {
+  if (!mainWindow) {
+    return;
+  }
+  mainWindow.webContents.send('loginUser');
+}
+
+function onLogout() {
+  if (!mainWindow) {
+    return;
+  }
+  mainWindow.webContents.send('logoutUser');
+}
+
+function setMenu() {
+  const menuTemplate = getMenuTemplate({ appName: app.getName(), onLogin, onLogout, isLogin });
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
+}
+
 function createMainWindow() {
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = false; //process.env.NODE_ENV === 'development';
   const height = 520;
   const width = isDev ? 950 : 300;
   mainWindow = new BrowserWindow({ width, height });
@@ -32,24 +56,26 @@ function createMainWindow() {
   });
 }
 
-let loginWindow;
 function createLoginWindow(oAuthUri) {
   loginWindow = new BrowserWindow({
     width: 600,
-    height: 600,
+    height: 680,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
   loginWindow.loadURL(oAuthUri);
-  loginWindow.webContents.openDevTools();
+  // loginWindow.webContents.openDevTools();
   loginWindow.on('closed', () => {
     loginWindow = null;
   });
 }
 
-app.on('ready', createMainWindow);
+app.on('ready', () => {
+  createMainWindow();
+  setMenu();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -70,6 +96,7 @@ app.on('activate', () => {
 
 ipcMain.on('openLoginWindow', (event, { oAuthUri }) => {
   if (loginWindow) {
+    loginWindow.show();
     return;
   }
   createLoginWindow(oAuthUri);
@@ -79,5 +106,18 @@ ipcMain.on('loginSuccess', (event, message) => {
   if (!mainWindow) {
     return;
   }
-  mainWindow.webContents.send('loginSuccess', message);
+  mainWindow.show();
+  if (message) {
+    mainWindow.webContents.send('loginSuccess', message);
+  }
+  isLogin = true;
+  setMenu();
+});
+
+ipcMain.on('logoutSuccess', () => {
+  if (!mainWindow) {
+    return;
+  }
+  isLogin = false;
+  setMenu();
 });
