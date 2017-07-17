@@ -39,6 +39,7 @@ export default function App({
               presence={phone.detailedPresence}
               router={phone.router}
               logo={logo}
+              interaction={phone.interaction}
             >
               <AppView
                 auth={phone.auth}
@@ -297,4 +298,5 @@ export default function App({
 
 App.propTypes = {
   phone: PropTypes.object.isRequired,
+  logo: PropTypes.func.isRequired,
 };

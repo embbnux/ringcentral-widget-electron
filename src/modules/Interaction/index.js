@@ -34,6 +34,12 @@ export default class Interaction extends RcModule {
       await this._auth.logout();
       ipcRenderer.send('logoutSuccess');
     });
+    this.onClose = () => {
+      ipcRenderer.send('closeWindow');
+    };
+    this.onMinimize = () => {
+      ipcRenderer.send('minimizeWindow');
+    };
   }
 
   _shouldInit() {

@@ -21,6 +21,8 @@ body {
   line-height: 35px;
   text-align: center;
   background-color: #f3f3f3;
+  -webkit-app-region: drag;
+  cursor: move;
 }
 
 .centerStyle {
@@ -78,9 +80,83 @@ body {
   width: 100px;
   margin-top: -8px;
   margin-left: -50px;
+  cursor: move;
 }
 
 .container {
   position: relative;
   height: calc(100% - #{$header-height});
+}
+
+.button {
+  box-sizing: border-box;
+  @extend .centerStyle;
+  height: 20px;
+  width: 20px;
+  margin-top: -12px;
+  border-radius: 3px;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 1px;
+  border-color: transparent;
+}
+
+.button:hover {
+  border-color: #cccccc;
+}
+
+.toggle {
+  right: 40px;
+}
+
+.minimized .toggle {
+  right: 3px;
+}
+
+.minimizeIcon {
+  position: absolute;
+  box-sizing: border-box;
+  left: 3px;
+  bottom: 7px;
+  width: 12px;
+  height: 2px;
+  border: 1px solid #888888;
+}
+.minimized .minimizeIcon {
+  height: 12px;
+  bottom: 3px;
+}
+
+.minimizeIconBar {
+  width: 100%;
+  height: 1px;
+  background-color: #888888;
+}
+.close {
+  right: 16px;
+}
+.minimized .close {
+  display: none;
+}
+.closeIcon {
+  position: relative;
+  overflow: hidden;
+  margin: 2px;
+  width: 14px;
+  height: 14px;
+  :first-child, :last-child {
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    top: 6px;
+    left: 0;
+    background: #888888;
+    border-radius: 1px;
+  }
+  :first-child {
+    transform: rotate(45deg);
+  }
+  :last-child {
+    transform: rotate(-45deg);
+  }
 }

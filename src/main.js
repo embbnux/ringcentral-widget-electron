@@ -11,6 +11,7 @@ function onLogin() {
   if (!mainWindow) {
     return;
   }
+  mainWindow.show();
   mainWindow.webContents.send('loginUser');
 }
 
@@ -18,6 +19,7 @@ function onLogout() {
   if (!mainWindow) {
     return;
   }
+  mainWindow.show();
   mainWindow.webContents.send('logoutUser');
 }
 
@@ -29,9 +31,16 @@ function setMenu() {
 
 function createMainWindow() {
   const isDev = false; //process.env.NODE_ENV === 'development';
-  const height = 520;
+  const height = 540;
   const width = isDev ? 950 : 300;
-  mainWindow = new BrowserWindow({ width, height });
+  mainWindow = new BrowserWindow({
+    width,
+    height,
+    frame: false,
+    resizable: false,
+    backgroundColor: '#ffffff',
+    show: false,
+  });
   let indexFile = process.env.ASSETS_HOST;
   if (!indexFile) {
     indexFile = url.format({
@@ -54,6 +63,9 @@ function createMainWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 }
 
 function createLoginWindow(oAuthUri) {
@@ -64,6 +76,7 @@ function createLoginWindow(oAuthUri) {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
     },
+    backgroundColor: '#fcfcfc',
   });
   loginWindow.loadURL(oAuthUri);
   // loginWindow.webContents.openDevTools();
@@ -91,6 +104,8 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createMainWindow();
+  } else {
+    mainWindow.show();
   }
 });
 
@@ -120,4 +135,18 @@ ipcMain.on('logoutSuccess', () => {
   }
   isLogin = false;
   setMenu();
+});
+
+ipcMain.on('minimizeWindow', () => {
+  if (!mainWindow) {
+    return;
+  }
+  mainWindow.minimize();
+});
+
+ipcMain.on('closeWindow', () => {
+  if (!mainWindow) {
+    return;
+  }
+  mainWindow.hide();
 });

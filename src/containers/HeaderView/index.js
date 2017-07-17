@@ -11,6 +11,8 @@ function HeaderView({
   dndStatus,
   onClickPresenceStatus,
   children,
+  onClose,
+  onMinimize,
 }) {
   const Logo = logo;
   return (
@@ -28,6 +30,20 @@ function HeaderView({
         >
           <div className={styles.presenceBar} />
         </div>
+        <div
+          onClick={onMinimize}
+          className={classnames(styles.button, styles.toggle)}>
+          <div className={styles.minimizeIcon}>
+            <div className={styles.minimizeIconBar} />
+          </div>
+        </div>
+        <div
+          onClick={onClose}
+          className={classnames(styles.button, styles.close)}>
+          <div className={styles.closeIcon}>
+            <div /><div />
+          </div>
+        </div>
         <Logo className={styles.logo} />
       </header>
       <div className={styles.container}>
@@ -43,7 +59,8 @@ HeaderView.propTypes = {
   dndStatus: PropTypes.string,
   onClickPresenceStatus: PropTypes.func.isRequired,
   logo: PropTypes.func.isRequired,
-  standAlone: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  onMinimize: PropTypes.func.isRequired,
 };
 
 HeaderView.defaultProps = {
@@ -65,11 +82,14 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   router,
+  interaction,
 }) {
   return {
     onClickPresenceStatus: () => {
       router.push('/settings?showPresenceSettings=1');
     },
+    onClose: interaction.onClose,
+    onMinimize: interaction.onMinimize,
   };
 }
 
