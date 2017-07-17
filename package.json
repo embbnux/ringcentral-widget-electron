@@ -2,6 +2,7 @@
   "name": "ringcentral-widget-electron",
   "productName": "RingCentral Widget",
   "version": "0.0.1",
+  "electron": "Embbnux Ji",
   "description": "A RingCentral Widget App with Electron",
   "main": "build/main.js",
   "license": "MIT",
@@ -9,17 +10,62 @@
     "start": "electron .",
     "prestart": "npm run build-main",
     "build-renderer": "webpack --config webpack.renderer.config.js --progress --colors --watch",
-    "build-main": "webpack --config webpack.main.config.js --progress --colors"
+    "build-main": "webpack --config webpack.main.config.js --progress --colors",
+    "build-main-pro": "NODE_ENV=production webpack --config webpack.main.config.js --progress --colors",
+    "build-renderer-pro": "NODE_ENV=production webpack --config webpack.renderer.config.js --progress --colors",
+    "build-pro": "concurrently \"npm run build-main-pro\" \"npm run build-renderer-pro\"",
+    "package": "rm -rf build && npm run build-pro && build --publish never",
+    "package-all": "npm run build-pro && build -mwl",
+    "package-linux": "npm run build-pro && build --linux",
+    "package-win": "npm run build-pro && build --win --x64"
+  },
+  "build": {
+    "productName": "RingCentral Widget",
+    "appId": "com.ringcentral.integration.Widget",
+    "files": [
+      "build/",
+      "node_modules/",
+      "package.json"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ]
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    }
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "concurrently": "^3.5.0",
+    "electron-builder": "^19.16.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3"
-  },
-  "dependencies": {
+    "eslint-plugin-react": "^6.10.3",
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
@@ -29,19 +75,26 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.23.0",
-    "bufferutil": "^3.0.2",
-    "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.0.1",
-    "core-js": "^2.4.1",
     "css-loader": "^0.28.1",
     "electron": "^1.6.11",
     "file-loader": "^0.11.1",
-    "format-message": "^5.1.2",
     "html-webpack-plugin": "^2.29.0",
-    "intl": "^1.2.5",
     "node-sass": "^4.5.3",
-    "normalize-css": "^2.3.1",
     "postcss-loader": "^1.3.3",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.5.0",
+    "webpack-dev-server": "^2.5.1"
+  },
+  "dependencies": {
+    "bufferutil": "^3.0.2",
+    "classnames": "^2.2.5",
+    "core-js": "^2.4.1",
+    "format-message": "^5.1.2",
+    "intl": "^1.2.5",
+    "normalize-css": "^2.3.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -53,12 +106,12 @@
     "ringcentral-client": "^1.0.0-rc1",
     "ringcentral-integration": "^0.7.0-rc10",
     "ringcentral-widget": "^0.4.0-rc23",
-    "sass-loader": "^6.0.3",
-    "style-loader": "^0.17.0",
-    "url-loader": "^0.5.8",
     "utf-8-validate": "^3.0.3",
-    "webpack": "^2.5.0",
-    "webpack-dev-server": "^2.5.1",
     "whatwg-fetch": "^2.0.3"
+  },
+  "devEngines": {
+    "node": ">=7.x",
+    "npm": ">=4.x",
+    "yarn": ">=0.21.3"
   }
 }
