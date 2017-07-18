@@ -37,7 +37,7 @@ function createMainWindow() {
     width,
     height,
     frame: false,
-    resizable: false,
+    // resizable: false,
     backgroundColor: '#ffffff',
     show: false,
   });

@@ -34,7 +34,13 @@ export default {
 ```
 yarn
 # build assets file
-yarn run build-renderer
+yarn build-renderer
 # start app in other console
 yarn start
 ```
+
+### Build Package
+```
+yarn package
+```
+You can get package in release dir.

@@ -6,7 +6,13 @@
   "description": "A RingCentral Widget App with Electron",
   "main": "build/main.js",
   "license": "MIT",
+  "author": {
+    "name": "Embbnux Ji",
+    "email": "embbnux@embbnux.com",
+    "url": "https://github.com/embbnux"
+  },
   "scripts": {
+    "postinstall": "install-app-deps",
     "start": "electron .",
     "prestart": "npm run build-main",
     "build-renderer": "webpack --config webpack.renderer.config.js --progress --colors --watch",
@@ -14,6 +20,7 @@
     "build-main-pro": "NODE_ENV=production webpack --config webpack.main.config.js --progress --colors",
     "build-renderer-pro": "NODE_ENV=production webpack --config webpack.renderer.config.js --progress --colors",
     "build-pro": "concurrently \"npm run build-main-pro\" \"npm run build-renderer-pro\"",
+    "build-package": "build --publish never",
     "package": "rm -rf build && npm run build-pro && build --publish never",
     "package-all": "npm run build-pro && build -mwl",
     "package-linux": "npm run build-pro && build --linux",
@@ -24,9 +31,14 @@
     "appId": "com.ringcentral.integration.Widget",
     "files": [
       "build/",
-      "node_modules/",
-      "package.json"
+      "package.json",
+      "build/icon.png",
+      "build/icon.icns"
     ],
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
+    },
     "dmg": {
       "contents": [
         {
@@ -51,23 +63,12 @@
         "deb",
         "AppImage"
       ]
-    },
-    "directories": {
-      "buildResources": "resources",
-      "output": "release"
     }
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "concurrently": "^3.5.0",
-    "electron-builder": "^19.16.0",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
@@ -75,9 +76,16 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.23.0",
+    "concurrently": "^3.5.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.1",
     "electron": "^1.6.11",
+    "electron-builder": "^19.16.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.29.0",
     "node-sass": "^4.5.3",
@@ -104,8 +112,8 @@
     "redux": "^3.6.0",
     "ringcentral": "3.0.0",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.7.0-rc10",
-    "ringcentral-widget": "^0.4.0-rc23",
+    "ringcentral-integration": "^0.7.0-rc13",
+    "ringcentral-widget": "^0.4.0-rc26",
     "utf-8-validate": "^3.0.3",
     "whatwg-fetch": "^2.0.3"
   },

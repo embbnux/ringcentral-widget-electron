@@ -31,6 +31,8 @@ const config = {
       { from: 'src/assets', to: 'assets' },
       { from: 'src/index.html', to: 'index.html' },
       { from: 'src/redirect.html', to: 'redirect.html' },
+      { from: 'src/icon.icns', to: 'icon.icns' },
+      { from: 'src/icon.png', to: 'icon.png' },
     ]),
   ],
   module: {

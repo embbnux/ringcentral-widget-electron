@@ -446,6 +446,9 @@ export default class Phone extends RcModule {
       contactMatcher: this.contactMatcher,
       onRinging: async () => {
         // TODO refactor some of these logic into appropriate modules
+        if (this.webphone._webphone) {
+          return;
+        }
         this.router.history.push('/calls');
       },
       getState: () => this.state.callMonitor,
