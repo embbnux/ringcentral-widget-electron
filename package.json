@@ -1,7 +1,7 @@
 {
   "name": "ringcentral-widget-electron",
   "productName": "RingCentral Widget",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A RingCentral Widget App with Electron",
   "main": "build/main.js",
   "license": "MIT",
