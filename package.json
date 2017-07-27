@@ -2,7 +2,6 @@
   "name": "ringcentral-widget-electron",
   "productName": "RingCentral Widget",
   "version": "0.0.1",
-  "electron": "Embbnux Ji",
   "description": "A RingCentral Widget App with Electron",
   "main": "build/main.js",
   "license": "MIT",
@@ -12,7 +11,7 @@
     "url": "https://github.com/embbnux"
   },
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "start": "electron .",
     "prestart": "npm run build-main",
     "build-renderer": "webpack --config webpack.renderer.config.js --progress --colors --watch",
@@ -22,9 +21,11 @@
     "build-pro": "concurrently \"npm run build-main-pro\" \"npm run build-renderer-pro\"",
     "build-package": "build --publish never",
     "package": "rm -rf build && npm run build-pro && build --publish never",
-    "package-all": "npm run build-pro && build -mwl",
-    "package-linux": "npm run build-pro && build --linux",
-    "package-win": "npm run build-pro && build --win --x64"
+    "package-all": "rm -rf build && npm run build-pro && build -mwl",
+    "package-linux": "rm -rf build && npm run build-pro && build --linux",
+    "package-win": "rm -rf build && npm run build-pro && build --win --x64",
+    "package-release": "rm -rf build && npm run build-pro && build --publish always",
+    "package-release-mac": "rm -rf build && npm run build-pro && build -mw"
   },
   "build": {
     "productName": "RingCentral Widget",
@@ -39,6 +40,11 @@
       "buildResources": "build",
       "output": "release"
     },
+    "publish": [
+      {
+        "provider": "github"
+      }
+    ],
     "dmg": {
       "contents": [
         {
@@ -100,6 +106,7 @@
     "bufferutil": "^3.0.2",
     "classnames": "^2.2.5",
     "core-js": "^2.4.1",
+    "electron-updater": "^2.7.2",
     "format-message": "^5.1.2",
     "intl": "^1.2.5",
     "normalize-css": "^2.3.1",

@@ -1,4 +1,5 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, dialog } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import url from 'url';
 import getMenuTemplate from './lib/getMenuTemplate';
@@ -84,6 +85,32 @@ function createLoginWindow(oAuthUri) {
     loginWindow = null;
   });
 }
+
+// auto updater
+autoUpdater.autoDownload = false;
+autoUpdater.on('update-available', (info) => {
+  dialog.showMessageBox({
+    type: 'info',
+    title: 'Found Updates',
+    message: 'Found updates, do you want update now?',
+    buttons: ['Sure', 'No']
+  }, (buttonIndex) => {
+    if (buttonIndex === 0) {
+      autoUpdater.downloadUpdate();
+    }
+  });
+});
+autoUpdater.on('update-downloaded', (info) => {
+  dialog.showMessageBox({
+    title: 'Install Updates',
+    message: 'Updates downloaded, application will be quit for update...'
+  }, () => {
+    setImmediate(() => autoUpdater.quitAndInstall());
+  });
+});
+app.on('ready', () => {
+  autoUpdater.checkForUpdates();
+});
 
 app.on('ready', () => {
   createMainWindow();
