@@ -7,6 +7,7 @@ import getMenuTemplate from './lib/getMenuTemplate';
 let mainWindow;
 let loginWindow;
 let isLogin = false;
+let silentCheckUpdate = true;
 
 function onLogin() {
   if (!mainWindow) {
@@ -24,10 +25,15 @@ function onLogout() {
   mainWindow.webContents.send('logoutUser');
 }
 
+function onCheckUpdate() {
+  silentCheckUpdate = false;
+  autoUpdater.checkForUpdates();
+}
+
 function setMenu() {
   const menuTemplate = getMenuTemplate({
     appName: app.getName(),
-    onCheckUpdate: () => autoUpdater.checkForUpdates(),
+    onCheckUpdate,
     onLogin,
     onLogout,
     isLogin,
@@ -107,6 +113,9 @@ autoUpdater.on('update-available', () => {
   });
 });
 autoUpdater.on('update-not-available', () => {
+  if (silentCheckUpdate) {
+    return;
+  }
   dialog.showMessageBox({
     title: 'No Updates',
     message: 'Current version is up-to-date.'
@@ -121,6 +130,7 @@ autoUpdater.on('update-downloaded', () => {
   });
 });
 app.on('ready', () => {
+  silentCheckUpdate = true;
   autoUpdater.checkForUpdates();
 });
 

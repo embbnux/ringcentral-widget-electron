@@ -255,7 +255,7 @@ export default class Phone extends RcModule {
     this.addModule('webphone', new Webphone({
       appKey: apiConfig.appKey,
       appName: 'RingCentral Widget',
-      appVersion: '0.1.0',
+      appVersion,
       alert: this.alert,
       auth: this.auth,
       client: this.client,

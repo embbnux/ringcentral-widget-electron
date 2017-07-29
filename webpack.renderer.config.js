@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const packageConfig = require('./package');
 
 const buildPath = path.resolve(__dirname, 'build');
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -21,6 +22,7 @@ if (fs.existsSync(apiConfigFile)) {
     redirectUri: process.env.REDIRECT_URI,
   };
 }
+const version = packageConfig.version;
 const config = {
   devtool,
   externals: ['fsevents', 'crypto-browserify'],
@@ -39,6 +41,7 @@ const config = {
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV),
         API_CONFIG: JSON.stringify(apiConfig),
+        APP_VERSION: JSON.stringify(version),
       },
     }),
     new CopyWebpackPlugin([
