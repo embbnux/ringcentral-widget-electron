@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const fs = require('fs');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -8,6 +9,18 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const isDev = NODE_ENV === 'development';
 const devtool = isDev ? 'inline-source-map' : 'source-map';
 
+const apiConfigFile = path.resolve(__dirname, 'api.json');
+let apiConfig;
+if (fs.existsSync(apiConfigFile)) {
+  apiConfig = JSON.parse(fs.readFileSync(apiConfigFile));
+} else {
+  apiConfig = {
+    appKey: process.env.API_KEY,
+    appSecret: process.env.API_SECRET,
+    server: process.env.API_SERVER,
+    redirectUri: process.env.REDIRECT_URI,
+  };
+}
 const config = {
   devtool,
   externals: ['fsevents', 'crypto-browserify'],
@@ -25,6 +38,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV),
+        API_CONFIG: JSON.stringify(apiConfig),
       },
     }),
     new CopyWebpackPlugin([

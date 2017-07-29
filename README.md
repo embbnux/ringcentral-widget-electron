@@ -19,15 +19,15 @@ Build with [RingCentral Commons](https://github.com/ringcentral/ringcentral-js-i
 git clone https://github.com/embbnux/ringcentral-widget-electron.git
 ```
 
-### Create api secret file
+### Create api secret file in project root path
 ```
-# src/config/api.js
-export default {
-  appKey: 'your ringcentral app key',
-  appSecret: 'your ringcentral app sercet',
-  server: 'ringcentral sever url, eg: https://platform.devtest.ringcentral.com',
-  redirectUri: 'https://embbnux.github.io/ringcentral-widget-electron/redirect.html',
-};
+# api.json
+{
+  "appKey": "your ringcentral app key",
+  "appSecret": "your ringcentral app sercet",
+  "server": "ringcentral sever url, eg: https://platform.devtest.ringcentral.com",
+  "redirectUri": "https://embbnux.github.io/ringcentral-widget-electron/redirect.html"
+}
 ```
 
 ### Start server

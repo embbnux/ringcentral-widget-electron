@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import Phone from './modules/Phone';
 import App from './containers/App';
-import apiConfig from './config/api';
 import brandConfig from './config/brand';
 import version from './config/version';
 import prefix from './config/prefix';
 import Logo from './assets/images/VIE_Logo_RC.svg';
+
+const apiConfig = process.env.API_CONFIG;
 const phone = new Phone({
   apiConfig,
   brandConfig,

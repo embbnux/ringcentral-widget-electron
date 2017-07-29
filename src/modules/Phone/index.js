@@ -262,7 +262,7 @@ export default class Phone extends RcModule {
       storage: this.storage,
       rolesAndPermissions: this.rolesAndPermissions,
       contactMatcher: this.contactMatcher,
-      webphoneLogLevel: 3,
+      webphoneLogLevel: 1,
       extensionDevice: this.extensionDevice,
       globalStorage: this.globalStorage,
       numberValidate: this.numberValidate,
