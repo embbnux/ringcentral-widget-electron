@@ -24,8 +24,8 @@
     "package-all": "rm -rf build && npm run build-pro && build -mwl",
     "package-linux": "rm -rf build && npm run build-pro && build --linux",
     "package-win": "rm -rf build && npm run build-pro && build --win --x64",
-    "package-release": "rm -rf build && npm run build-pro && build --publish always",
-    "package-release-mac": "rm -rf build && npm run build-pro && build -mw"
+    "package-release": "rm -rf build && npm run build-pro && build",
+    "package-release-mac-win": "rm -rf build && npm run build-pro && build --mac --win"
   },
   "build": {
     "productName": "RingCentral Widget",
@@ -42,7 +42,9 @@
     },
     "publish": [
       {
-        "provider": "github"
+        "provider": "github",
+        "owner": "embbnux",
+        "repo": "ringcentral-widget-electron"
       }
     ],
     "dmg": {
