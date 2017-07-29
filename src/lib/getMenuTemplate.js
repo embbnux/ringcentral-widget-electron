@@ -1,4 +1,4 @@
-function getTemplate() {
+function getTemplate({ onCheckUpdate }) {
   const template = [
     {
       label: 'Edit',
@@ -39,8 +39,8 @@ function getTemplate() {
       role: 'help',
       submenu: [
         {
-          label: 'Learn More',
-          click() { console.log('click'); },
+          label: 'Check for Updates',
+          click: () => onCheckUpdate(),
         }
       ]
     }
@@ -48,8 +48,8 @@ function getTemplate() {
   return template;
 }
 
-export default function getMenu({ appName, onLogout, onLogin, isLogin }) {
-  const template = getTemplate();
+export default function getMenu({ appName, onLogout, onLogin, isLogin, onCheckUpdate }) {
+  const template = getTemplate({ onCheckUpdate });
   if (process.platform === 'darwin') {
     template.unshift({
       label: appName,

@@ -25,7 +25,13 @@ function onLogout() {
 }
 
 function setMenu() {
-  const menuTemplate = getMenuTemplate({ appName: app.getName(), onLogin, onLogout, isLogin });
+  const menuTemplate = getMenuTemplate({
+    appName: app.getName(),
+    onCheckUpdate: () => autoUpdater.checkForUpdates(),
+    onLogin,
+    onLogout,
+    isLogin,
+  });
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
 }
@@ -88,7 +94,7 @@ function createLoginWindow(oAuthUri) {
 
 // auto updater
 autoUpdater.autoDownload = false;
-autoUpdater.on('update-available', (info) => {
+autoUpdater.on('update-available', () => {
   dialog.showMessageBox({
     type: 'info',
     title: 'Found Updates',
@@ -100,7 +106,13 @@ autoUpdater.on('update-available', (info) => {
     }
   });
 });
-autoUpdater.on('update-downloaded', (info) => {
+autoUpdater.on('update-not-available', () => {
+  dialog.showMessageBox({
+    title: 'No Updates',
+    message: 'Current version is up-to-date.'
+  });
+});
+autoUpdater.on('update-downloaded', () => {
   dialog.showMessageBox({
     title: 'Install Updates',
     message: 'Updates downloaded, application will be quit for update...'
