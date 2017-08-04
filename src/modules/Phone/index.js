@@ -439,6 +439,8 @@ export default class Phone extends RcModule {
     reducers.callLog = this.callLog.reducer;
     this.addModule('callMonitor', new CallMonitor({
       ...options,
+      call: this.call,
+      storage: this.storage,
       accountInfo: this.accountInfo,
       detailedPresence: this.detailedPresence,
       activeCalls: this.activeCalls,

@@ -43,7 +43,7 @@ function setMenu() {
 }
 
 function createMainWindow() {
-  const isDev = false; //process.env.NODE_ENV === 'development';
+  const isDev = false; // process.env.NODE_ENV === 'development';
   const height = 540;
   const width = isDev ? 950 : 300;
   mainWindow = new BrowserWindow({

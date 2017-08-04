@@ -43,6 +43,7 @@ const config = {
         API_CONFIG: JSON.stringify(apiConfig),
         APP_VERSION: JSON.stringify(version),
       },
+      'global.GENTLY': false,
     }),
     new CopyWebpackPlugin([
       { from: 'src/assets', to: 'assets' },
@@ -84,7 +85,7 @@ const config = {
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        exclude: /assets\/images\/.+\.svg/,
+        exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
         use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {

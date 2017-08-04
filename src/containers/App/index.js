@@ -60,6 +60,7 @@ export default function App({
                   }}
                 />
                 <IncomingCallPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   webphone={phone.webphone}
                   forwardingNumber={phone.forwardingNumber}
@@ -179,9 +180,11 @@ export default function App({
               path="/calls/active"
               component={() => (
                 <CallCtrlPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   contactMatcher={phone.contactMatcher}
                   webphone={phone.webphone}
+                  forwardingNumber={phone.forwardingNumber}
                   regionSettings={phone.regionSettings}
                   onAdd={() => {
                     phone.router.push('/');
