@@ -15,7 +15,7 @@ import ConversationPage from 'ringcentral-widget/containers/ConversationPage';
 // import ConferencePage from 'ringcentral-widget/containers/ConferencePage';
 import MessagesPage from 'ringcentral-widget/containers/MessagesPage';
 import SettingsPage from 'ringcentral-widget/containers/SettingsPage';
-import CallMonitorPage from 'ringcentral-widget/containers/CallMonitorPage';
+import ActiveCallsPage from 'ringcentral-widget/containers/ActiveCallsPage';
 import CallHistoryPage from 'ringcentral-widget/containers/CallHistoryPage';
 import IncomingCallPage from 'ringcentral-widget/containers/IncomingCallPage';
 import CallCtrlPage from 'ringcentral-widget/containers/CallCtrlPage';
@@ -88,6 +88,27 @@ export default function App({
             </HeaderView>
           )} >
           <Route
+            path="/welcome"
+            component={() => (
+              <WelcomePage
+                version={phone.version}
+                auth={phone.auth}
+                locale={phone.locale}
+                rateLimiter={phone.rateLimiter}
+                connectivityMonitor={phone.connectivityMonitor} >
+                <AlertContainer
+                  locale={phone.locale}
+                  alert={phone.alert}
+                  rateLimiter={phone.rateLimiter}
+                  brand={phone.brand}
+                  router={phone.router}
+                  callingSettingsUrl="/settings/calling"
+                  regionSettingsUrl="/settings/region"
+                />
+              </WelcomePage>
+            )}
+          />
+          <Route
             path="/"
             component={props => (
               <MainView
@@ -107,7 +128,8 @@ export default function App({
                 />
               </MainView>
             )} >
-            <IndexRoute
+            <Route
+              path="/dialer"
               component={() => (
                 <DialerPage
                   call={phone.call}
@@ -133,6 +155,7 @@ export default function App({
                   brand={phone.brand}
                   router={phone.router}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  callingSettings={phone.callingSettings}
                   presence={phone.detailedPresence}
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
@@ -160,20 +183,21 @@ export default function App({
             <Route
               path="/calls"
               component={() => (
-                <CallMonitorPage
+                <ActiveCallsPage
                   locale={phone.locale}
                   callMonitor={phone.callMonitor}
                   contactMatcher={phone.contactMatcher}
+                  contactSearch={phone.contactSearch}
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
-                  dateTimeFormat={phone.dateTimeFormat}
-                  onLogCall={async () => { await sleep(1000); }}
-                  onViewContact={() => {}}
+                  rateLimiter={phone.rateLimiter}
+                  onViewContact={() => { }}
+                  onCreateContact={() => { }}
                   router={phone.router}
                   composeText={phone.composeText}
-                  rateLimiter={phone.rateLimiter}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   webphone={phone.webphone}
+                  brand={phone.brand}
                 />
               )} />
             <Route
@@ -187,7 +211,7 @@ export default function App({
                   forwardingNumber={phone.forwardingNumber}
                   regionSettings={phone.regionSettings}
                   onAdd={() => {
-                    phone.router.push('/');
+                    phone.router.push('/dialer');
                   }}
                   onBackButtonClick={() => {
                     phone.router.push('/calls');
@@ -258,41 +282,19 @@ export default function App({
               component={() => (
                 <MessagesPage
                   locale={phone.locale}
-                  auth={phone.auth}
+                  router={phone.router}
                   messages={phone.messages}
-                  messageStore={phone.messageStore}
-                  extensionInfo={phone.extensionInfo}
                   regionSettings={phone.regionSettings}
-                  contactMatcher={phone.contactMatcher}
                   dateTimeFormat={phone.dateTimeFormat}
                   connectivityMonitor={phone.connectivityMonitor}
-                  rolesAndPermissions={phone.rolesAndPermissions}
                   rateLimiter={phone.rateLimiter}
-                  router={phone.router}
+                  call={phone.call}
+                  rolesAndPermissions={phone.rolesAndPermissions}
+                  onViewContact={() => { }}
+                  onCreateContact={() => { }}
                 />
               )} />
           </Route>
-          <Route
-            path="/welcome"
-            component={() => (
-              <WelcomePage
-                version={phone.version}
-                auth={phone.auth}
-                locale={phone.locale}
-                rateLimiter={phone.rateLimiter}
-                connectivityMonitor={phone.connectivityMonitor} >
-                <AlertContainer
-                  locale={phone.locale}
-                  alert={phone.alert}
-                  rateLimiter={phone.rateLimiter}
-                  brand={phone.brand}
-                  router={phone.router}
-                  callingSettingsUrl="/settings/calling"
-                  regionSettingsUrl="/settings/region"
-                />
-              </WelcomePage>
-            )}
-          />
         </Route>
       </Router>
     </Provider>
