@@ -88,7 +88,7 @@ export default function App({
             </HeaderView>
           )} >
           <Route
-            path="/welcome"
+            path="/"
             component={() => (
               <WelcomePage
                 version={phone.version}
