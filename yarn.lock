@@ -5882,8 +5882,8 @@ ringcentral-client@^1.0.0-rc1:
     isomorphic-fetch "^2.2.1"
 
 ringcentral-integration@^0.7.12:
-  version "0.7.12"
-  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.12.tgz#e3a2e519cc43d23b1e031fd3403e57c00f8cb78a"
+  version "0.7.18"
+  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.18.tgz#527ec65e4de023a36ce15cd7e44050d0b15fb043"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
@@ -5892,20 +5892,20 @@ ringcentral-integration@^0.7.12:
     ramda "^0.24.1"
     redux "^3.5.2"
     reselect "2.5.4"
-    ringcentral-web-phone "^0.4.2"
+    ringcentral-web-phone "^0.4.3"
     url-loader "^0.5.8"
     uuid "^3.0.1"
     yards "^0.1.4"
 
-ringcentral-web-phone@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.4.2.tgz#6a854f4691472715fbbcb4f94b8ee1dc3a835c33"
+ringcentral-web-phone@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.4.3.tgz#13d4a137f1246b4fc4b2c68e03d66b77a749f37b"
   dependencies:
-    sip.js "^0.7.7"
+    sip.js "^0.7.8"
 
 ringcentral-widget@^0.4.15:
-  version "0.4.15"
-  resolved "https://registry.yarnpkg.com/ringcentral-widget/-/ringcentral-widget-0.4.15.tgz#9c128b01e48f804219d64ee053bd508e84219d08"
+  version "0.4.19"
+  resolved "https://registry.yarnpkg.com/ringcentral-widget/-/ringcentral-widget-0.4.19.tgz#557ef15600499d59b40f9cb6331a5465bcb091e3"
   dependencies:
     classnames "^2.2.5"
     core-js "^2.4.1"
@@ -6127,7 +6127,7 @@ single-line-log@^1.1.2:
   dependencies:
     string-width "^1.0.1"
 
-sip.js@^0.7.7:
+sip.js@^0.7.8:
   version "0.7.8"
   resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.7.8.tgz#48709ba13485bcc050869b77a93c21658095b430"
   dependencies:

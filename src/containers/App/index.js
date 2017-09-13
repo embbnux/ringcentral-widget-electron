@@ -228,6 +228,7 @@ export default function App({
               path="/history"
               component={() => (
                 <CallHistoryPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   callHistory={phone.callHistory}
                   contactMatcher={phone.contactMatcher}
@@ -240,6 +241,7 @@ export default function App({
                   router={phone.router}
                   onViewContact={() => {}}
                   rateLimiter={phone.rateLimiter}
+                  showContactDisplayPlaceholder={false}
                 />
               )} />
             <Route
@@ -275,12 +277,15 @@ export default function App({
                   rateLimiter={phone.rateLimiter}
                   messages={phone.messages}
                   router={phone.router}
+                  brand={phone.brand}
+                  showContactDisplayPlaceholder={false}
                 />
               )} />
             <Route
               path="/messages"
               component={() => (
                 <MessagesPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   router={phone.router}
                   messages={phone.messages}
@@ -292,6 +297,7 @@ export default function App({
                   rolesAndPermissions={phone.rolesAndPermissions}
                   onViewContact={() => { }}
                   onCreateContact={() => { }}
+                  showContactDisplayPlaceholder={false}
                 />
               )} />
           </Route>

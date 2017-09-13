@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
 import styles from 'ringcentral-widget/components/Environment/styles.scss';
 
-import Header from 'ringcentral-widget/components/Header';
+import BackHeader from 'ringcentral-widget/components/BackHeader';
 import Panel from 'ringcentral-widget/components/Panel';
 import Line from 'ringcentral-widget/components/Line';
 import IconLine from 'ringcentral-widget/components/IconLine';
 import TextInput from 'ringcentral-widget/components/TextInput';
 import Switch from 'ringcentral-widget/components/Switch';
+import Button from 'ringcentral-widget/components/Button';
 
 import hostingUrl from '../../config/hostingUrl';
 
@@ -100,27 +103,19 @@ class Environment extends Component {
     if (this.state.hidden) {
       return null;
     }
+    const hasChanges = !(
+      this.state.serverValue === this.props.server &&
+      this.state.enabledValue === this.props.enabled &&
+      this.state.appKeyValue === this.props.appKey &&
+      this.state.appSecretValue === this.props.appSecret
+    );
     return (
       <div className={styles.root}>
-        <Header
-          buttons={[
-            {
-              label: <i className="fa fa-times" />,
-              onClick: this.onCancel,
-            },
-            {
-              label: <i className="fa fa-save" />,
-              onClick: this.onOk,
-              disabled: (
-                this.state.serverValue === this.props.server &&
-                this.state.enabledValue === this.props.enabled &&
-                this.state.appKeyValue === this.props.appKey &&
-                this.state.appSecretValue === this.props.appSecret
-              ),
-              placement: 'right',
-            },
-          ]}
-        >Environment</Header>
+        <BackHeader
+          onBackClick={this.onCancel}
+        >
+          Environment
+        </BackHeader>
         <Panel classname={styles.content}>
           <Line>
             Server
@@ -159,6 +154,15 @@ class Environment extends Component {
               value={`${hostingUrl}/redirect.html`}
               disabled
             />
+          </Line>
+          <Line>
+            <Button
+              className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
+              onClick={this.onOk}
+              disabled={!hasChanges}
+            >
+              Save
+            </Button>
           </Line>
         </Panel>
       </div>
